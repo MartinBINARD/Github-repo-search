@@ -1,18 +1,20 @@
+import { Message } from 'semantic-ui-react';
+
 interface MessageProps {
   search: string;
   nbrSearchResult: number;
 }
 
-function Message({ search, nbrSearchResult }: MessageProps) {
+function MessageSearch({ search, nbrSearchResult }: MessageProps) {
   return (
-    <section className="message">
+    <Message className="message">
       <p className="message-content">
         {search !== 'null' && nbrSearchResult
           ? `La recherche a donné ${nbrSearchResult} résultats`
           : `Aucune recherche pour le moment`}
       </p>
-    </section>
+    </Message>
   );
 }
 
-export default Message;
+export default MessageSearch;

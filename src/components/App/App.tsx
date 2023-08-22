@@ -1,26 +1,35 @@
-import logo from '../../assets/logo.svg';
+import { useState } from 'react';
+
+import Header from './Header';
+import SearchBar from './SearchBar';
+import ReposResults from './ReposResults';
+import Message from './Message';
+
+import { Repo } from '../../@types';
 
 import './App.scss';
 
 function App() {
+  const fakeData = [
+    {
+      id: 28457823,
+      name: 'freeCodeCamp',
+      owner: {
+        login: 'freeCodeCamp',
+        avatar_url: 'https://avatars.githubusercontent.com/u/9892522?v=4',
+      },
+      description:
+        "freeCodeCamp.org's open-source codebase and curriculum. Learn to code for free.",
+    },
+  ];
+  const [repos, setRepos] = useState<Repo[]>(fakeData);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-
-        <p>
-          Edit <code>src/components/App/App.tsx</code> and save to reload.
-        </p>
-
-        <a
-          className="App-link"
-          href="https://react.dev/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <SearchBar />
+      {repos && <ReposResults repoList={repos} />}
+      <Message />
     </div>
   );
 }

@@ -22,7 +22,6 @@ function ReposResults({ repoList }: ResultProps) {
 
   return (
     <section className="repos">
-      <h2>Results</h2>
       <ul className="repos-list">{repos}</ul>
     </section>
   );

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import Header from './Header';
 import SearchBar from './SearchBar';
@@ -10,26 +11,33 @@ import { Repo } from '../../@types';
 import './App.scss';
 
 function App() {
-  const fakeData = [
-    {
-      id: 28457823,
-      name: 'freeCodeCamp',
-      owner: {
-        login: 'freeCodeCamp',
-        avatar_url: 'https://avatars.githubusercontent.com/u/9892522?v=4',
-      },
-      description:
-        "freeCodeCamp.org's open-source codebase and curriculum. Learn to code for free.",
-    },
-  ];
-  const [repos, setRepos] = useState<Repo[]>(fakeData);
+  const [repos, setRepos] = useState<Repo[]>([]);
+  const [search, setSearch] = useState<string>('null');
+
+  async function fetchRepos() {
+    try {
+      const response = await axios.get(
+        `https://api.github.com/search/repositories?q=${search}&sort=stars&order=desc&page=1&per_page=9`
+      );
+
+      if (response) {
+        setRepos(response.data.items);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchRepos();
+  }, []);
 
   return (
     <div className="App">
       <Header />
-      <SearchBar />
-      {repos && <ReposResults repoList={repos} />}
+      <SearchBar search={search} setSearch={setSearch} />
       <Message />
+      {repos && <ReposResults repoList={repos} />}
     </div>
   );
 }

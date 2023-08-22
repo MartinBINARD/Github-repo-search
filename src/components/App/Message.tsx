@@ -1,7 +1,7 @@
 function Message() {
   return (
-    <section>
-      <h3>Message</h3>
+    <section className="message">
+      <p className="message-content">Message</p>
     </section>
   );
 }

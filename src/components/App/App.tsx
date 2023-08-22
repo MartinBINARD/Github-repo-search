@@ -13,6 +13,7 @@ import './App.scss';
 function App() {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [search, setSearch] = useState('null');
+  const [nbrSearchResult, setNbrSearchResult] = useState(9);
 
   useEffect(() => {
     const fetchRepos = async () => {
@@ -23,6 +24,7 @@ function App() {
 
         if (response) {
           setRepos(response.data.items);
+          setNbrSearchResult(response.data.items.length);
         }
       } catch (error) {
         console.log(error);
@@ -36,7 +38,7 @@ function App() {
     <div className="App">
       <Header />
       <SearchBar setSearch={setSearch} />
-      <Message />
+      <Message search={search} nbrSearchResult={nbrSearchResult} />
       {repos && <ReposResults repoList={repos} />}
     </div>
   );

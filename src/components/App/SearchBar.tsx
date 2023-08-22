@@ -1,19 +1,32 @@
 import { Input } from 'semantic-ui-react';
 
 interface SearchProps {
-  search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function SearchBar({ search, setSearch }, SearchProps) {
+function SearchBar({ setSearch }: SearchProps) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const input = document.querySelector('input');
+
+    if (input && input.value) {
+      const filteredInput = input.value.trim().toLocaleLowerCase();
+
+      setSearch(filteredInput);
+    }
+  };
+
   return (
-    <section className="search">
+    <form className="search" onSubmit={handleSubmit}>
       <Input
-        icon={{ name: 'search', circular: true, link: true }}
+        icon={{
+          name: 'search',
+        }}
+        iconPosition="left"
         placeholder="Search..."
         className="search-input"
       />
-    </section>
+    </form>
   );
 }
 

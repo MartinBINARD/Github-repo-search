@@ -9,7 +9,7 @@ function MessageSearch({ search, nbrSearchResult }: MessageProps) {
   return (
     <Message className="message">
       <p className="message-content">
-        {search !== 'null' && nbrSearchResult
+        {search !== 'null' && nbrSearchResult > 0
           ? `La recherche a donné ${nbrSearchResult} résultats`
           : `Aucune recherche pour le moment`}
       </p>

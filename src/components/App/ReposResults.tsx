@@ -9,14 +9,16 @@ interface ResultProps {
 function ReposResults({ repoList }: ResultProps) {
   const repos = repoList.map((repo) => (
     <li key={repo.id} className="repos-list-card">
-      <Card>
-        <Image src={repo.owner.avatar_url} wrapped ui={false} />
-        <Card.Content>
-          <Card.Header>{repo.name}</Card.Header>
-          <Card.Meta>{repo.owner.login}</Card.Meta>
-          <Card.Description>{repo.description}</Card.Description>
-        </Card.Content>
-      </Card>
+      <a href={repo.owner.html_url}>
+        <Card>
+          <Image src={repo.owner.avatar_url} wrapped ui={false} />
+          <Card.Content>
+            <Card.Header>{repo.name}</Card.Header>
+            <Card.Meta>{repo.owner.login}</Card.Meta>
+            <Card.Description>{repo.description}</Card.Description>
+          </Card.Content>
+        </Card>
+      </a>
     </li>
   ));
 

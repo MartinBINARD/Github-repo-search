@@ -50,9 +50,21 @@ function App() {
       <Header />
       <SearchBar setSearch={setSearch} />
       <Message search={search} nbrSearchResult={nbrSearchResult} />
-      {loading ? <Loader /> : <ReposResults repoList={repos} />}
-      {!loading && (
-        <ButtonMore loadResult={loadResult} setLoadResult={setLoadResult} />
+      {/* Affiche le loader au milieu de la page si premier chargement seulement */}
+      {loading && repos.length === 0 ? (
+        <Loader />
+      ) : (
+        <ReposResults repoList={repos} />
+      )}
+      {/* Affiche le bouton si seulement le premier chargement est fini.
+      Permet de continuer d'afficher le bouton lorsque l'on veut plus de résultat
+      Obtien loading en props pour le button loading spinner */}
+      {(!loading || repos.length > 0) && (
+        <ButtonMore
+          loading={loading}
+          loadResult={loadResult}
+          setLoadResult={setLoadResult}
+        />
       )}
     </div>
   );

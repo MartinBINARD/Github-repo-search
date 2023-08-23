@@ -1,5 +1,5 @@
 function Loader() {
-  return <div class="ui active text loader">Chargement des résultats</div>;
+  return <div className="ui active text loader">Chargement des résultats</div>;
 }
 
 export default Loader;

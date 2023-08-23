@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import Header from './Header';
 import SearchBar from './SearchBar';
+import Loader from './Loader';
 import ReposResults from './ReposResults';
 import Message from './Message';
 import ButtonMore from './ButtonMore';
@@ -16,9 +17,12 @@ function App() {
   const [search, setSearch] = useState('null');
   const [nbrSearchResult, setNbrSearchResult] = useState(0);
   const [loadResult, setLoadResult] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRepos = async () => {
+      setLoading(true);
+
       try {
         const response = await axios.get(
           `https://api.github.com/search/repositories?q=${search}&sort=stars&order=desc&page=1&per_page=${
@@ -29,10 +33,13 @@ function App() {
         if (response) {
           setRepos(response.data.items);
           setNbrSearchResult(response.data.total_count);
+          setLoading(false);
         }
       } catch (error) {
         console.log(error);
       }
+
+      setLoading(false);
     };
 
     fetchRepos();
@@ -43,8 +50,10 @@ function App() {
       <Header />
       <SearchBar setSearch={setSearch} />
       <Message search={search} nbrSearchResult={nbrSearchResult} />
-      {repos && <ReposResults repoList={repos} />}
-      <ButtonMore loadResult={loadResult} setLoadResult={setLoadResult} />
+      {loading ? <Loader /> : <ReposResults repoList={repos} />}
+      {!loading && (
+        <ButtonMore loadResult={loadResult} setLoadResult={setLoadResult} />
+      )}
     </div>
   );
 }

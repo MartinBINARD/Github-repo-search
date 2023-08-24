@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Form, Input, Segment } from 'semantic-ui-react';
 
 interface SearchProps {
-  setIsSubmit: React.Dispatch<React.SetStateAction<boolean>>;
+  setDoQuery: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-function SearchBar({ setIsSubmit }: SearchProps) {
+function SearchBar({ setDoQuery }: SearchProps) {
   /*
     Le plus important dans une application React, c'est son ÉTAT :
     l'affichage va être modifié en fonction de celui-ci
@@ -46,7 +46,7 @@ function SearchBar({ setIsSubmit }: SearchProps) {
     // event.preventDefault; // Semantci ui le fait directement avec <Form />
     console.log('submit');
 
-    setIsSubmit(true);
+    setDoQuery(search);
   };
 
   return (

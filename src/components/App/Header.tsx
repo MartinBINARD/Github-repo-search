@@ -1,9 +1,10 @@
+import { Image } from 'semantic-ui-react';
 import logo from '../../assets/images/logo-github.png';
 
 function Header() {
   return (
     <header className="header">
-      <img className="header-logo" src={logo} alt="logo github" />
+      <Image src={logo} alt="logo github" size="small" centered />
     </header>
   );
 }

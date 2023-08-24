@@ -54,7 +54,7 @@ function App() {
       {loading && repos.length === 0 ? (
         <Loader />
       ) : (
-        <ReposResults repoList={repos} />
+        <ReposResults list={repos} />
       )}
       {/* Affiche le bouton si seulement le premier chargement est fini.
       Permet de continuer d'afficher le bouton lorsque l'on veut plus de résultat

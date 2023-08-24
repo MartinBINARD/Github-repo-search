@@ -1,4 +1,4 @@
-import { Input } from 'semantic-ui-react';
+import { Form, Input, Segment } from 'semantic-ui-react';
 
 interface SearchProps {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
@@ -17,16 +17,19 @@ function SearchBar({ setSearch }: SearchProps) {
   };
 
   return (
-    <form className="search" onSubmit={handleSubmit}>
-      <Input
-        icon={{
-          name: 'search',
-        }}
-        iconPosition="left"
-        placeholder="Search..."
-        className="search-input"
-      />
-    </form>
+    <Segment>
+      <Form role="search">
+        <Form.Field>
+          <Input
+            icon="search"
+            inconPosition="left"
+            placeholder="Rechercher un dépôt..."
+            aria-label="Recherche un dépôt"
+            role="searchbox"
+          />
+        </Form.Field>
+      </Form>
+    </Segment>
   );
 }
 

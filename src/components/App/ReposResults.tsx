@@ -13,7 +13,9 @@ function ReposResults({ list }: ResultProps) {
       <Card.Content>
         <Card.Header as="h2">{repo.name}</Card.Header>
         <Card.Meta as="h3">{repo.owner.login}</Card.Meta>
-        <Card.Description as="p">{repo.description}</Card.Description>
+        {repo.description && (
+          <Card.Description as="p">{repo.description}</Card.Description>
+        )}
       </Card.Content>
 
       <Card.Content extra>

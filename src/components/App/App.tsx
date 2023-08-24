@@ -9,63 +9,74 @@ import Message from './Message';
 import ButtonMore from './ButtonMore';
 
 import { Repo } from '../../@types';
+// import repos from '../../data/repos';
 
 import './App.scss';
 
 function App() {
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [total, setTotal] = useState(0);
   const [repos, setRepos] = useState<Repo[]>([]);
-  const [search, setSearch] = useState('null');
-  const [nbrSearchResult, setNbrSearchResult] = useState(0);
-  const [loadResult, setLoadResult] = useState(1);
-  const [loading, setLoading] = useState(true);
+  // const [nbrSearchResult, setNbrSearchResult] = useState(0);
+  // const [loadResult, setLoadResult] = useState(1);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchRepos = async () => {
-      setLoading(true);
-
+    const getRepos = async () => {
       try {
-        const response = await axios.get(
-          `https://api.github.com/search/repositories?q=${search}&sort=stars&order=desc&page=1&per_page=${
-            loadResult * 9
-          }`
+        // const response = await axios.get(
+        //   'https://api.github.com/search/repositories?q=react'
+        // );
+        // console.log(response);
+
+        // Axios retourne TOUJOURS le résultat de l'API
+        // dans un objet avec la propriété `data`
+        // on peut directement décomposer `response`
+        // et assigner les résultats dans `data`
+        const { data } = await axios.get(
+          `https://api.github.com/search/repositories?q=react&sort=stars&order=desc&page=1&per_page=9`
         );
 
-        if (response) {
-          setRepos(response.data.items);
-          setNbrSearchResult(response.data.total_count);
-          setLoading(false);
-        }
+        setTotal(data.total_count);
+        setRepos(data.items);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsSubmit(false);
       }
-
-      setLoading(false);
     };
 
-    fetchRepos();
-  }, [search, loadResult]);
+    // je n'appelle ma fonction uniquement à la soumission du formulaire
+    if (isSubmit) {
+      getRepos();
+    }
+  }, [isSubmit]);
+  // je veux appeler mon effet (`getRepos`, mon appel API) uniquement
+  // au montage (1er rendu, premier affichage du composant)
+  // pour viser cette phase du cycle de vie, j'indique `[]`
 
   return (
     <div className="App">
       <Header />
-      <SearchBar setSearch={setSearch} />
-      <Message search={search} nbrSearchResult={nbrSearchResult} />
-      {/* Affiche le loader au milieu de la page si premier chargement seulement */}
+      <SearchBar setIsSubmit={setIsSubmit} />
+      <Message total={total} />
+      <ReposResults list={repos} />
+      {/* Affiche le loader au milieu de la page si premier chargement seulement
       {loading && repos.length === 0 ? (
         <Loader />
       ) : (
         <ReposResults list={repos} />
-      )}
+      )} */}
       {/* Affiche le bouton si seulement le premier chargement est fini.
       Permet de continuer d'afficher le bouton lorsque l'on veut plus de résultat
       Obtien loading en props pour le button loading spinner */}
-      {(!loading || repos.length > 0) && (
+      {/* {(!loading || repos.length > 0) && (
         <ButtonMore
           loading={loading}
           loadResult={loadResult}
           setLoadResult={setLoadResult}
         />
-      )}
+      )} */}
     </div>
   );
 }

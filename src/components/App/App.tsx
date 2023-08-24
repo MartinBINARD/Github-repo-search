@@ -22,12 +22,13 @@ function App() {
   // État : pour stocker les résultats de l'API
   const [total, setTotal] = useState(0);
   const [repos, setRepos] = useState<Repo[]>([]);
-  // const [nbrSearchResult, setNbrSearchResult] = useState(0);
-  // const [loadResult, setLoadResult] = useState(1);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loadRepos, setLoadRepos] = useState<number>(1);
 
   useEffect(() => {
     const getRepos = async () => {
+      setLoading(true);
+
       try {
         // const response = await axios.get(
         //   'https://api.github.com/search/repositories?q=react'
@@ -39,23 +40,25 @@ function App() {
         // on peut directement décomposer `response`
         // et assigner les résultats dans `data`
         const { data } = await axios.get(
-          `https://api.github.com/search/repositories?q=${doQuery}&sort=stars&order=desc&page=1&per_page=9`
+          `https://api.github.com/search/repositories?q=${doQuery}&sort=stars&order=desc&page=1&per_page=${
+            loadRepos * 9
+          }`
         );
 
         setTotal(data.total_count);
         setRepos(data.items);
       } catch (error) {
         console.log(error);
-      } finally {
-        setDoQuery(null);
       }
+
+      setLoading(false);
     };
 
     // je n'appelle ma fonction uniquement à la soumission du formulaire
     if (doQuery) {
       getRepos();
     }
-  }, [doQuery]);
+  }, [doQuery, loadRepos]);
   // je veux appeler mon effet (`getRepos`, mon appel API) uniquement
   // au montage (1er rendu, premier affichage du composant)
   // pour viser cette phase du cycle de vie, j'indique `[]`
@@ -64,24 +67,23 @@ function App() {
     <div className="App">
       <Header />
       <SearchBar setDoQuery={setDoQuery} />
-      <Message total={total} />
-      <ReposResults list={repos} />
-      {/* Affiche le loader au milieu de la page si premier chargement seulement
+      <Message total={total} doQuery={doQuery} />
+      {/* Affiche le loader au milieu dès la première sousmission au formulaire */}
       {loading && repos.length === 0 ? (
         <Loader />
       ) : (
         <ReposResults list={repos} />
-      )} */}
-      {/* Affiche le bouton si seulement le premier chargement est fini.
+      )}
+      {/* Affiche le bouton si seulement la première sousmission est finie.
       Permet de continuer d'afficher le bouton lorsque l'on veut plus de résultat
-      Obtien loading en props pour le button loading spinner */}
-      {/* {(!loading || repos.length > 0) && (
+      Loading en props pour le button loading spinner */}
+      {repos.length > 0 && (
         <ButtonMore
           loading={loading}
-          loadResult={loadResult}
-          setLoadResult={setLoadResult}
+          loadRepos={loadRepos}
+          setLoadRepos={setLoadRepos}
         />
-      )} */}
+      )}
     </div>
   );
 }

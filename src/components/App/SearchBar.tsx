@@ -46,7 +46,7 @@ function SearchBar({ setDoQuery }: SearchProps) {
     // event.preventDefault; // Semantci ui le fait directement avec <Form />
     console.log('submit');
 
-    setDoQuery(search);
+    setDoQuery(search.trim());
   };
 
   return (
@@ -55,7 +55,7 @@ function SearchBar({ setDoQuery }: SearchProps) {
         <Form.Field>
           <Input
             icon="search"
-            inconPosition="left"
+            iconPosition="left"
             placeholder="Rechercher un dépôt..."
             aria-label="Recherche un dépôt"
             role="searchbox"

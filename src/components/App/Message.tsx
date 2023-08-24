@@ -2,12 +2,15 @@ import { Message as MessageSemanticUI } from 'semantic-ui-react';
 
 interface MessageProps {
   total: number;
+  doQuery: string | null;
 }
 
-function Message({ total }: MessageProps) {
+function Message({ total, doQuery }: MessageProps) {
   return (
     <MessageSemanticUI>
-      La recherche a retourné {total} résultats
+      {doQuery
+        ? `La recherche a retourné ${total} résultats`
+        : 'Rechercher un dépôt sur GitHub'}
     </MessageSemanticUI>
   );
 }

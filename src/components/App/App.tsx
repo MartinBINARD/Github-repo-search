@@ -11,21 +11,36 @@ import logo from '../../assets/images/logo-github.png';
 import './App.scss';
 import MoreResults from './MoreResults';
 
+import { Repo } from '../../@types';
+
 function App() {
   const [doQuery, setDoQuery] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
-  const [repos, setRepos] = useState([]);
+  const [repos, setRepos] = useState<Repo[]>([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function getRepos() {
       try {
-        const { data } = await axios.get(
+        // je previens Axios du type de la réponse
+        const { data } = await axios.get<{
+          total_count: number;
+          items: Repo[];
+        }>(
           `https://api.github.com/search/repositories?q=${doQuery}&sort=stars&order=desc&page=${page}&per_page=9`
         );
 
+        // const newRepos: Repo[] = data.items;
+
         setTotal(data.total_count);
-        setRepos(data.items);
+        // ici : je REMPLACE mes repos courants par les nouveaux
+        // setRepos(data.items);
+        // je veux AJOUTER les nouveaux aux ancien
+        setRepos([
+          ...repos, // je déverse les repos actuels
+          ...data.items, // j'ajoute les nouveaux
+        ]);
+        // https://www.gekkode.com/developpement/2-facons-de-fusionner-des-tableaux-en-javascript/
       } catch (error) {
         console.error(error);
       } finally {

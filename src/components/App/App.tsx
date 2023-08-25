@@ -55,6 +55,17 @@ function App() {
     }
   }, [doQuery, page]);
 
+  const doSubmit = (search: string) => {
+    // j'ai soumis mon formulaire
+    // je renseigne la saisie
+    setDoQuery(search);
+
+    // je vide mon tableau des précédents résultats
+    setRepos([]);
+    // je remet la page à 1
+    setPage(1);
+  };
+
   const nextPage = () => {
     setPage(page + 1);
   };

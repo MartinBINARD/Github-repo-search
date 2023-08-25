@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Form, Input, Segment } from 'semantic-ui-react';
 
 interface SearchBarProps {
-  setDoQuery: React.Dispatch<React.SetStateAction<string | null>>;
+  doSubmit: (search: string) => void;
 }
 
-function SearchBar({ setDoQuery }: SearchBarProps) {
+function SearchBar({ doSubmit }: SearchBarProps) {
   const [search, setSearch] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,7 +13,7 @@ function SearchBar({ setDoQuery }: SearchBarProps) {
   };
 
   const handleSubmit = () => {
-    setDoQuery(search.trim());
+    doSubmit(search.trim());
   };
 
   return (

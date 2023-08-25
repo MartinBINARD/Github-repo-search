@@ -76,7 +76,7 @@ function App() {
         <Image src={logo} alt="Logo GitHub" size="small" centered />
       </header>
 
-      <SearchBar setDoQuery={setDoQuery} />
+      <SearchBar doSubmit={doSubmit} />
       <Message total={total} doQuery={doQuery} />
       <ReposResults list={repos} />
 

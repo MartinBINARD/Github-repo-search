@@ -1,15 +1,15 @@
-import React from 'react';
-import { Card, Image, Icon } from 'semantic-ui-react';
+import { Card, Icon, Image } from 'semantic-ui-react';
 import { Repo } from '../../@types';
 
-interface ResultProps {
+interface ReposResultsProps {
   list: Repo[];
 }
 
-function ReposResults({ list }: ResultProps) {
+function ReposResults({ list }: ReposResultsProps) {
   const items = list.map((repo) => (
     <Card key={repo.id} as="article">
       <Image src={repo.owner.avatar_url} wrapped ui={false} />
+
       <Card.Content>
         <Card.Header as="h2">{repo.name}</Card.Header>
         <Card.Meta as="h3">{repo.owner.login}</Card.Meta>
@@ -19,11 +19,7 @@ function ReposResults({ list }: ResultProps) {
       </Card.Content>
 
       <Card.Content extra>
-        <a
-          href={repo.owner.html_url}
-          target=" _blank"
-          rel="noopener noreferrer"
-        >
+        <a href={repo.html_url} target=" _blank" rel="noopener noreferrer">
           <Icon name="github alternate" />
           Voir sur GitHub
         </a>

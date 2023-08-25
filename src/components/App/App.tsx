@@ -36,8 +36,10 @@ function App() {
         // ici : je REMPLACE mes repos courants par les nouveaux
         // setRepos(data.items);
         // je veux AJOUTER les nouveaux aux ancien
-        setRepos([
-          ...repos, // je déverse les repos actuels
+        // je passe par le callback pour `setRepos` pour éviter
+        // de devoir ajouter `repos` aux dépendances de useEffect
+        setRepos((currentRepos) => [
+          ...currentRepos, // je déverse les repos actuels
           ...data.items, // j'ajoute les nouveaux
         ]);
         // https://www.gekkode.com/developpement/2-facons-de-fusionner-des-tableaux-en-javascript/
